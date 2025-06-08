@@ -24,9 +24,9 @@ export class UsuarioRepository{
         this.UsuarioLista.push(usuario)
     }
 
-    ExibeUsuarioPorCPF(cpf:string){
+    ExibeUsuarioPorCPF(cpf:string):Usuario|undefined{
         const index = this.findIndex(cpf)
-        this.UsuarioLista[index]
+        return this.UsuarioLista[index]
     }
 
     RemoveUsuarioPorCPF(cpf:string){

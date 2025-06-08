@@ -4,7 +4,11 @@ export class CategoriaUsuarioRepository{
     private static instance :CategoriaUsuarioRepository
     private CatUsuarioLista: CategoriaUsuario[] =[]
 
-    private constructor(){}
+    private constructor(){
+        this.CatUsuarioLista.push(new CategoriaUsuario(1,"Professor"));
+        this.CatUsuarioLista.push(new CategoriaUsuario(2,"Aluno"));
+        this.CatUsuarioLista.push(new CategoriaUsuario(3,"Bibliotecário"));
+    }
 
     public static getInstance():CategoriaUsuarioRepository{
         if(!this.instance){
@@ -19,6 +23,10 @@ export class CategoriaUsuarioRepository{
 
     ExibeTodosCatUsuarios():CategoriaUsuario[]{
         return this.CatUsuarioLista
+    }
+
+    AchaCatUsuPorId(id:number):CategoriaUsuario|undefined{
+        return this.CatUsuarioLista.find(categoria =>categoria.id ===id);
     }
 
 }

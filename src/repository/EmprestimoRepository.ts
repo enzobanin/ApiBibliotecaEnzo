@@ -1,9 +1,11 @@
 import { Emprestimo } from "../model/Emprestimo"
 
+
 export class EmprestimoRepository{
     private static instance: EmprestimoRepository
     private EmprestimoLista : Emprestimo[] = []
-    private constructor(){}
+    private proxId:number = 1
+    private constructor(){ }
     
     static getInstance():EmprestimoRepository{
         if(!this.instance){
@@ -12,41 +14,65 @@ export class EmprestimoRepository{
         return this.instance
     }
 
-    private findIndex(id:number):number{
-        const index = this.EmprestimoLista.findIndex(p=>p.id == id)
+    InsereEmprestimo(emprestimo:Emprestimo){
+        this.EmprestimoLista.push(emprestimo)
+    }
+
+    ExibeEmprestimoPorId(id:number):Emprestimo|undefined{
+        const index = this.EmprestimoLista.findIndex(e=>e.id===id)
         if(index == -1){
-            throw new Error("ID não encontrado")
+            return undefined;
         }
-        return index
+        return this.EmprestimoLista[index];
     }
 
-    InsereEmprestimo(Emprestimo:Emprestimo){
-        this.EmprestimoLista.push(Emprestimo)
-    }
-
-    ExibeEmprestimoPorId(id:number){
-        const index = this.findIndex(id)
-        this.EmprestimoLista[index]
-    }
-
-    RemoveEmprestimoPorId(id:number){
-        const index = this.findIndex(id)
+    RemoveEmprestimoPorId(id:number):boolean{
+        const index = this.EmprestimoLista.findIndex(e=>e.id === id)
+        if(index == -1){
+            return false;
+        }
         this.EmprestimoLista.splice(index,1)
+        return true;
     }
 
     ExibeTodosEmprestimos():Emprestimo[]{
         return this.EmprestimoLista;
     }
 
-    AtualizaEmprestimo(id:number, EmprestimoAtualizado:Emprestimo):Emprestimo{
-        const index = this.findIndex(id)
-        let EmprestimoExistente = this.EmprestimoLista[index];
-        EmprestimoExistente.data_entrega = EmprestimoAtualizado.data_entrega;
-        EmprestimoExistente.dias_atraso = EmprestimoAtualizado.dias_atraso;
-        EmprestimoExistente.suspensao_ate = EmprestimoAtualizado.suspensao_ate;
-        
-        return EmprestimoExistente;
+    AtualizaEmprestimo(id:number, EmprestimoAtualizado:Emprestimo):Emprestimo|undefined{
+        const index = this.EmprestimoLista.findIndex(e=>e.id === id)
+        if(index == -1){
+            return undefined;
+        }
+        EmprestimoAtualizado.id = id;
+        this.EmprestimoLista[index] = EmprestimoAtualizado;
+        return this.EmprestimoLista[index];
     }
+
+    BuscaEmpPendPorUsuario(usuarioId:number):Emprestimo[]{
+        const hoje = new Date();
+        return this.EmprestimoLista.filter(
+            e=>e.usuario_id === usuarioId &&
+            e.data_entrega === null &&
+            e.data_devolucao < hoje
+        );
+    }
+
+    BuscaEmpAtrasPorUsuario(usuarioId:number):Emprestimo[]{
+        return this.EmprestimoLista.filter(
+            e=>e.usuario_id === usuarioId &&
+            e.dias_atraso > 0 &&
+            e.data_entrega === null
+        )
+    }
+
+    BuscaEmpAtivoPorUsuario(usuarioId:number):Emprestimo[]{
+        return this.EmprestimoLista.filter(
+            e=>e.usuario_id === usuarioId &&
+            e.data_entrega === null
+        )
+    }
+
 }
 
 

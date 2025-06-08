@@ -4,7 +4,11 @@ export class CursoRepository{
     private static instance :CursoRepository
     private CursoLista: Curso[] =[]
 
-    private constructor(){}
+    private constructor(){
+        this.CursoLista.push(new Curso(1,"ADS"));
+        this.CursoLista.push(new Curso(1,"Pedagogia"));
+        this.CursoLista.push(new Curso(1,"Administração"));
+    }
 
     public static getInstance():CursoRepository{
         if(!this.instance){
@@ -21,4 +25,7 @@ export class CursoRepository{
         return this.CursoLista
     }
 
+    AchaCursoPorId(id:number):Curso|undefined{
+        return this.CursoLista.find(curso =>curso.id ===id);
+    }
 }
