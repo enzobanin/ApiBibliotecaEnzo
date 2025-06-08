@@ -1,4 +1,4 @@
-export class Usuario{ //precisa criar o ID DEPOIS
+export class Usuario{ 
     id:number;
     nome:string;
     cpf:string;

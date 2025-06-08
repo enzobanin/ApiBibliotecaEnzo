@@ -12,8 +12,8 @@ export class UsuarioRepository{
         return this.instance
     }
 
-    private findIndex(id:number):number{
-        const index = this.UsuarioLista.findIndex(p=>p.id == id)
+    private findIndex(cpf:string):number{
+        const index = this.UsuarioLista.findIndex(p=>p.cpf == cpf)
         if(index == -1){
             throw new Error("ID não encontrado")
         }
@@ -24,18 +24,30 @@ export class UsuarioRepository{
         this.UsuarioLista.push(usuario)
     }
 
-    AchaPorId(id:number){
-        const index = this.findIndex(id)
+    ExibeUsuarioPorCPF(cpf:string){
+        const index = this.findIndex(cpf)
         this.UsuarioLista[index]
     }
 
-    RemoveUsuarioPorID(id:number){
-        const index = this.findIndex(id)
+    RemoveUsuarioPorCPF(cpf:string){
+        const index = this.findIndex(cpf)
         this.UsuarioLista.splice(index,1)
     }
 
-    MostraTodosUsuarios():Usuario[]{
+    ExibeTodosUsuarios():Usuario[]{
         return this.UsuarioLista
+    }
+
+    AtualizaUsuario(cpf:string, UsuarioAtualizado:Usuario):Usuario{
+        const index = this.findIndex(cpf)
+        let UsuarioExistente = this.UsuarioLista[index];
+        UsuarioExistente.nome = UsuarioAtualizado.nome;
+        UsuarioExistente.cpf = UsuarioAtualizado.cpf;
+        UsuarioExistente.ativo = UsuarioAtualizado.ativo;
+        UsuarioExistente.categoria_id = UsuarioAtualizado.categoria_id;
+        UsuarioExistente.curso_id = UsuarioAtualizado.curso_id;
+
+        return UsuarioExistente;
     }
 }
 
