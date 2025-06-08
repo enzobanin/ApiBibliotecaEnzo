@@ -1,4 +1,5 @@
 export class Usuario{ //precisa criar o ID DEPOIS
+    id:number;
     nome:string;
     cpf:string;
     ativo:boolean;
@@ -8,6 +9,7 @@ export class Usuario{ //precisa criar o ID DEPOIS
         cpf:string, ativo:boolean,categoria_id: number,
         curso_id: number
     ){
+        this.id = id;
         this.nome = nome;
         this.cpf = cpf; 
         this.ativo = ativo;
