@@ -18,8 +18,9 @@ export class CategoriaLivroRepository{
         return this.instance
     }
 
-    InsereCatLivro(catLivro:CategoriaLivro){
-        this.CatLivroLista.push(catLivro)
+    InsereCatLivro(catLivro:CategoriaLivro):CategoriaLivro{
+        this.CatLivroLista.push(catLivro);
+        return catLivro;
     }
 
     ExibeTodosCatLivros():CategoriaLivro[]{

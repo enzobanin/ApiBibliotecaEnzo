@@ -13,8 +13,9 @@ export class EmprestimoRepository{
         return this.instance
     }
 
-    InsereEmprestimo(emprestimo:Emprestimo){
-        this.EmprestimoLista.push(emprestimo)
+    InsereEmprestimo(emprestimo:Emprestimo):Emprestimo{
+        this.EmprestimoLista.push(emprestimo);
+        return emprestimo;
     }
 
     ExibeEmprestimoPorId(id:number):Emprestimo|undefined{
@@ -43,13 +44,22 @@ export class EmprestimoRepository{
         if(index == -1){
             return undefined;
         }
-        EmprestimoAtualizado.id = id;
-        this.EmprestimoLista[index] = EmprestimoAtualizado;
-        return this.EmprestimoLista[index];
+        let EmprestimoExistente = this.EmprestimoLista[index];
+
+        EmprestimoExistente.usuario_id = EmprestimoAtualizado.usuario_id;
+        EmprestimoExistente.estoque_id = EmprestimoAtualizado.estoque_id;
+        EmprestimoExistente.data_emprestimo = EmprestimoAtualizado.data_emprestimo;
+        EmprestimoExistente.data_devolucao = EmprestimoAtualizado.data_devolucao;
+        EmprestimoExistente.data_entrega = EmprestimoAtualizado.data_entrega;
+        EmprestimoExistente.dias_atraso = EmprestimoAtualizado.dias_atraso;
+        EmprestimoExistente.suspensao_ate = EmprestimoAtualizado.suspensao_ate;
+
+        return EmprestimoExistente;
     }
 
     BuscaEmpPendPorUsuario(usuarioId:number):Emprestimo[]{
         const hoje = new Date();
+        hoje.setHours(0,0,0,0);
         return this.EmprestimoLista.filter(
             e=>e.usuario_id === usuarioId &&
             e.data_entrega === null &&

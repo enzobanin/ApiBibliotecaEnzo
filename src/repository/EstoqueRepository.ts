@@ -12,16 +12,9 @@ export class EstoqueRepository{
         return this.instance
     }
 
-    private findIndex(id:number):number{
-        const index = this.EstoqueLista.findIndex(p=>p.id == id)
-        if(index == -1){
-            throw new Error("ID não encontrado")
-        }
-        return index
-    }
-
-    InsereEstoque(Estoque:Estoque){
-        this.EstoqueLista.push(Estoque)
+    InsereEstoque(Estoque:Estoque):Estoque{
+        this.EstoqueLista.push(Estoque);
+        return Estoque;
     }
 
     ExibeEstoquePorId(id:number):Estoque|undefined{
@@ -50,9 +43,14 @@ export class EstoqueRepository{
         if(index == -1){
             return undefined;
         }
-        EstoqueAtualizado.id = id;
-        this.EstoqueLista[index] = EstoqueAtualizado
-        return this.EstoqueLista[index];
+        let EstoqueExistente = this.EstoqueLista[index]; 
+
+        EstoqueExistente.livro_id = EstoqueAtualizado.livro_id;
+        EstoqueExistente.quantidade = EstoqueAtualizado.quantidade;
+        EstoqueExistente.quantidade_emprestada = EstoqueAtualizado.quantidade_emprestada;
+        EstoqueExistente.disponivel = EstoqueAtualizado.disponivel;
+
+        return EstoqueExistente;
     }
 
     AtualizaQtdEmp(estoqueId:number, quantidade:number):Estoque|undefined{

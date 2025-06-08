@@ -6,8 +6,8 @@ export class CursoRepository{
 
     private constructor(){
         this.CursoLista.push(new Curso(1,"ADS"));
-        this.CursoLista.push(new Curso(1,"Pedagogia"));
-        this.CursoLista.push(new Curso(1,"Administração"));
+        this.CursoLista.push(new Curso(2,"Pedagogia"));
+        this.CursoLista.push(new Curso(3,"Administração"));
     }
 
     public static getInstance():CursoRepository{
@@ -17,8 +17,9 @@ export class CursoRepository{
         return this.instance
     }
 
-    InsereCurso(curso:Curso){
+    InsereCurso(curso:Curso):Curso{
         this.CursoLista.push(curso)
+        return curso;
     }
 
     ExibeTodosCursos():Curso[]{

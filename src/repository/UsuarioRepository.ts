@@ -11,8 +11,9 @@ export class UsuarioRepository{
         }
         return this.instance
     }
-    InsereUsuario(usuario:Usuario){
+    InsereUsuario(usuario:Usuario):Usuario{
         this.UsuarioLista.push(usuario)
+        return usuario;
     }
 
     ExibeUsuarioPorCPF(cpf:string):Usuario|undefined{
@@ -41,9 +42,15 @@ export class UsuarioRepository{
         if(index == -1){
             return undefined;
         }
-        UsuarioAtualizado.cpf = cpf;
-        this.UsuarioLista[index] = UsuarioAtualizado;
-        return this.UsuarioLista[index];
+        let UsuarioExistente = this.UsuarioLista[index]; 
+
+        UsuarioExistente.nome = UsuarioAtualizado.nome;
+        UsuarioExistente.cpf = UsuarioAtualizado.cpf; 
+        UsuarioExistente.ativo = UsuarioAtualizado.ativo;
+        UsuarioExistente.categoria_id = UsuarioAtualizado.categoria_id;
+        UsuarioExistente.curso_id = UsuarioAtualizado.curso_id;
+
+        return UsuarioExistente; 
     }
 }
 

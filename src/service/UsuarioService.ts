@@ -11,12 +11,17 @@ export class UsuarioService{
     private UsuarioRepository = UsuarioRepository.getInstance();
     private categoriaUsuarioRepository = CategoriaUsuarioRepository.getInstance()
     private cursoRepository = CursoRepository.getInstance();
+    private EmprestimoRepository = EmprestimoRepository.getInstance();
+    private LivroRepository = LivroRepository.getInstance();
+    private EstoqueRepository = EstoqueRepository.getInstance();
 
+    private contadorIdUsu: number = 1;
+    private contadorIdEmp: number = 1;
     constructor(){}
     
     novoUsuario(data:any):Usuario{
         if(!data.nome ||!data.cpf
-            ||!data.categoria_id||!data.curso
+            ||!data.categoria_id||!data.curso_id
         ){
             throw new Error("Favor informar todos os campos")
         }
@@ -33,16 +38,25 @@ export class UsuarioService{
             throw new Error("Curso inválido")
         }
         data.ativo = true
-        let contadorId: number = 0;
-        contadorId ++
-        const id = contadorId;
+        this.contadorIdUsu ++
+        const id = this.contadorIdUsu;
         const UsuarioNovo = new Usuario(id,data.nome,data.cpf,true,
             data.categoria_id, data.curso_id);
         this.UsuarioRepository.InsereUsuario(UsuarioNovo)
         return UsuarioNovo;
     }
+    realizaEmprestimo(usuarioCpf: string, livroId: number): Emprestimo {
+        const usuario = this.UsuarioRepository.ExibeUsuarioPorCPF(usuarioCpf);
+        if (!usuario) {
+            throw new Error("Usuário não encontrado.");
+        }
+        if (!usuario.ativo) {
+            throw new Error("Usuário inativo ou suspenso não pode realizar empréstimos.");
+        }
+        const emprestimosPendentes = this.EmprestimoRepository.BuscaEmpPendPorUsuario(usuario.id);
+        if (emprestimosPendentes.length > 0) {
+            throw new Error("Usuário possui empréstimos pendentes de regularização.");
+        }
+}
 }
 
-realizaEmprestimo(usuarioId: number, livroId:number):Emprestimo{
-    const usuario = this.UsuarioRepository.AchaCatUsuPorId()
-}

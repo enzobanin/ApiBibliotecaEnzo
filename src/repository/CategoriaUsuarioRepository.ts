@@ -17,8 +17,9 @@ export class CategoriaUsuarioRepository{
         return this.instance
     }
 
-    InsereCatUsuario(catUsuario:CategoriaUsuario){
-        this.CatUsuarioLista.push(catUsuario)
+    InsereCatUsuario(catUsuario:CategoriaUsuario):CategoriaUsuario{
+        this.CatUsuarioLista.push(catUsuario);
+        return catUsuario;
     }
 
     ExibeTodosCatUsuarios():CategoriaUsuario[]{
