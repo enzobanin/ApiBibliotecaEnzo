@@ -63,12 +63,21 @@ export class UsuarioService{
         if(!categoriaUsuario){
             throw new Error("Categoria não encontrada");
         }
+        //Limite dos empréstimos
         const emprestimosAtivos = this.EmprestimoRepository.BuscaEmpAtivoPorUsuario(usuario.id);
-        const limiteEmprestimos = (categoriaUsuario.nome === "Aluno" || categoriaUsuario.nome === "Professor") ? 2 : Ilimitado;
+        let limiteEmprestimos : number;
+        if (categoriaUsuario.nome === "Aluno") {
+            limiteEmprestimos = 3;
+        } else if (categoriaUsuario.nome === "Professor") {
+            limiteEmprestimos = 5; 
+        } else { 
+            limiteEmprestimos = Ilimitado;
+        }
 
         if(emprestimosAtivos.length >= limiteEmprestimos){
             throw new Error(`Limite (${limiteEmprestimos}) atingido`);
         }
+        //Verificar a Disponibilidade
         const estoque = this.EstoqueRepository.BuscaEstoqueLivroPorId(livroId);
         if(!estoque){
             throw new Error("Livro não encontrado no estoque");
@@ -81,11 +90,22 @@ export class UsuarioService{
 
         const dataEmprestimo = new Date();
         const dataDevolucao = new Date(dataEmprestimo); 
-
+        const livro = this.LivroRepository.ExibeLivroPorId(estoque.livro_id); 
+        if (!livro) {
+                throw new Error("Livro não encontrado"); 
+        }
+        //Prazo de Devolução
+        let diasPrazo:number;
         if (categoriaUsuario.nome === "Aluno") {
-            dataDevolucao.setDate(dataEmprestimo.getDate() + 7); 
-        } else if (categoriaUsuario.nome === "Professor" || categoriaUsuario.nome === "Bibliotecário"){
-            dataDevolucao.setDate(dataEmprestimo.getDate() + 14); 
+            if(livro.categoria_id === usuario.curso_id){
+                diasPrazo = 30;
+            }else{
+                diasPrazo = 15;
+            }
+        } else if (categoriaUsuario.nome === "Professor"){
+                diasPrazo= 40;
+        }else{
+            throw new Error("Regra de prazo de empréstimo não definida para esta categoria de usuário.");
         }
         const novoEmprestimo = new Emprestimo(
             idEmprestimo, usuario.id, estoque.id,dataEmprestimo,

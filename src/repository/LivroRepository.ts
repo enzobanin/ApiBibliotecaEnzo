@@ -32,7 +32,9 @@ export class LivroRepository{
         this.LivroLista.splice(index,1);
         return true;
     }
-
+    ExibeLivroPorId(id: number): Livro|undefined {
+        return this.LivroLista.find(l=>l.id === id);
+    }
     ExibeTodosLivros():Livro[]{
         return this.LivroLista
     }
@@ -44,14 +46,14 @@ export class LivroRepository{
         }
         let LivroExistente = this.LivroLista[index]; 
 
-    LivroExistente.titulo = LivroAtualizado.titulo;
-    LivroExistente.autor = LivroAtualizado.autor;
-    LivroExistente.editora = LivroAtualizado.editora;
-    LivroExistente.edicao = LivroAtualizado.edicao;
-    LivroExistente.isbn = LivroAtualizado.isbn; 
-    LivroExistente.categoria_id = LivroAtualizado.categoria_id;
+        LivroExistente.titulo = LivroAtualizado.titulo;
+        LivroExistente.autor = LivroAtualizado.autor;
+        LivroExistente.editora = LivroAtualizado.editora;
+        LivroExistente.edicao = LivroAtualizado.edicao;
+        LivroExistente.isbn = LivroAtualizado.isbn; 
+        LivroExistente.categoria_id = LivroAtualizado.categoria_id;
 
-    return LivroExistente;
+        return LivroExistente;
     }
 }
 
