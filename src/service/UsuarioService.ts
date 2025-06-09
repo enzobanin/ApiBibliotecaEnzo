@@ -14,8 +14,18 @@ export class UsuarioService{
     private EmprestimoRepository = EmprestimoRepository.getInstance();
 
     private contadorIdUsu: number = 1;
-    constructor(){}
-    
+    constructor(){
+        this.inicializaContadorId();
+    }
+     private inicializaContadorId(): void {
+        const todosUsuarios = this.UsuarioRepository.ExibeTodosUsuarios();
+        if (todosUsuarios.length > 0) {
+            const maxId = Math.max(...todosUsuarios.map(u => u.id));
+            this.contadorIdUsu = maxId + 1;
+        } else {
+            this.contadorIdUsu = 1;
+        }
+    }
     novoUsuario(data:any):Usuario{
         if(!data.nome ||!data.cpf
             ||!data.categoria_id||!data.curso_id

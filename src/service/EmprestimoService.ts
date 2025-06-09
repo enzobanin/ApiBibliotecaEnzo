@@ -17,8 +17,18 @@ export class EmprestimoService {
 
     private contadorIdEmp: number = 1;
 
-    constructor() {}
-
+    constructor() {
+        this.inicializaContador();
+    }
+    private inicializaContador(): void {
+        const todosEmprestimos = this.emprestimoRepository.ExibeTodosEmprestimos();
+        if (todosEmprestimos.length > 0) {
+            const maxId = Math.max(...todosEmprestimos.map(e => e.id));
+            this.contadorIdEmp = maxId + 1;
+        } else {
+            this.contadorIdEmp = 1;
+        }
+    }
     public realizaEmprestimo(usuarioCpf: string, exemplarLivroId: number): Emprestimo {
         const usuario = this.usuarioRepository.ExibeUsuarioPorCPF(usuarioCpf);
         if (!usuario) {
@@ -125,10 +135,12 @@ export class EmprestimoService {
         const dataEntrega = new Date();
         dataEntrega.setHours(0, 0, 0, 0);
         emprestimo.data_devolucao.setHours(0, 0, 0, 0);
+        const dataPrevistaDevolucaoParaComparacao = new Date(emprestimo.data_devolucao);
+        dataPrevistaDevolucaoParaComparacao.setHours(0, 0, 0, 0);
 
         let diasAtraso = 0;
-        if (dataEntrega > emprestimo.data_devolucao) {
-            const diffTime = Math.abs(dataEntrega.getTime() - emprestimo.data_devolucao.getTime());
+        if (dataEntrega > dataPrevistaDevolucaoParaComparacao) {
+            const diffTime = Math.abs(dataEntrega.getTime() - dataPrevistaDevolucaoParaComparacao.getTime());
             diasAtraso = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         }
 
