@@ -11,19 +11,19 @@ export class UsuarioRepository{
         }
         return this.instance
     }
-    InsereUsuario(usuario:Usuario):Usuario{
+    public InsereUsuario(usuario:Usuario):Usuario{
         this.UsuarioLista.push(usuario)
         return usuario;
     }
 
-    ExibeUsuarioPorCPF(cpf:string):Usuario|undefined{
+    public ExibeUsuarioPorCPF(cpf:string):Usuario|undefined{
         const index = this.UsuarioLista.findIndex(u=>u.cpf===cpf)
         if(index == -1){
             return undefined;
         }
         return this.UsuarioLista[index]
     }
-    RemoveUsuarioPorCPF(cpf:string):boolean{
+    public RemoveUsuarioPorCPF(cpf:string):boolean{
         const index = this.UsuarioLista.findIndex(u=>u.cpf===cpf)
         if(index == -1){
             return false
@@ -32,11 +32,11 @@ export class UsuarioRepository{
         return true;
     }
 
-    ExibeTodosUsuarios():Usuario[]{
+    public ExibeTodosUsuarios():Usuario[]{
         return this.UsuarioLista
     }
 
-    AtualizaUsuario(cpf:string, UsuarioAtualizado:Usuario):Usuario|undefined{
+    public AtualizaUsuario(cpf:string, UsuarioAtualizado:Usuario):Usuario|undefined{
         const index = this.UsuarioLista.findIndex(u=>u.cpf===cpf)
         if(index == -1){
             return undefined;
@@ -51,7 +51,7 @@ export class UsuarioRepository{
 
         return UsuarioExistente; 
     }
-    AtualizaUsuarioPorId(id: number, usuarioAtualizado: Usuario): Usuario | undefined {
+    public AtualizaUsuarioPorId(id: number, usuarioAtualizado: Usuario): Usuario | undefined {
         const index = this.UsuarioLista.findIndex(u => u.id === id);
         if (index === -1) {
             return undefined;

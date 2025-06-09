@@ -12,12 +12,12 @@ export class EstoqueRepository{
         return this.instance
     }
 
-    InsereEstoque(Estoque:Estoque):Estoque{
+    public InsereEstoque(Estoque:Estoque):Estoque{
         this.EstoqueLista.push(Estoque);
         return Estoque;
     }
 
-    ExibeEstoquePorId(id:number):Estoque|undefined{
+    public ExibeEstoquePorId(id:number):Estoque|undefined{
         const index = this.EstoqueLista.findIndex(e=>e.id===id)
         if(index == -1){
             return undefined
@@ -25,7 +25,7 @@ export class EstoqueRepository{
         return this.EstoqueLista[index]
     }
 
-    RemoveEstoquePorId(id:number):boolean{
+    public RemoveEstoquePorId(id:number):boolean{
         const index = this.EstoqueLista.findIndex(e=>e.id===id)
         if(index == -1){
             return false;
@@ -34,11 +34,11 @@ export class EstoqueRepository{
         return true;
     }
 
-    ExibeTodosEstoquesDisponiveis():Estoque[]{
+    public ExibeTodosEstoquesDisponiveis():Estoque[]{
         return this.EstoqueLista.filter(estoque => estoque.disponivel === true);
     }
 
-    AtualizaEstoque(id:number, EstoqueAtualizado:Estoque):Estoque|undefined{
+    public AtualizaEstoque(id:number, EstoqueAtualizado:Estoque):Estoque|undefined{
         const index = this.EstoqueLista.findIndex(e=>e.id===id)
         if(index == -1){
             return undefined;
@@ -53,7 +53,7 @@ export class EstoqueRepository{
         return EstoqueExistente;
     }
 
-    AtualizaQtdEmp(estoqueId:number, quantidade:number):Estoque|undefined{
+    public AtualizaQtdEmp(estoqueId:number, quantidade:number):Estoque|undefined{
         const estoque = this.ExibeEstoquePorId(estoqueId);
         if(estoque){
             estoque.quantidade_emprestada += quantidade;
@@ -64,7 +64,7 @@ export class EstoqueRepository{
     }
     
 
-    BuscaEstoqueLivroPorId(livroId:number):Estoque|undefined{
+    public BuscaEstoqueLivroPorId(livroId:number):Estoque|undefined{
         return this.EstoqueLista.find(e=>e.livro_id === livroId);
     }
 }

@@ -18,16 +18,16 @@ export class CategoriaLivroRepository{
         return this.instance
     }
 
-    InsereCatLivro(catLivro:CategoriaLivro):CategoriaLivro{
+    public InsereCatLivro(catLivro:CategoriaLivro):CategoriaLivro{
         this.CatLivroLista.push(catLivro);
         return catLivro;
     }
 
-    ExibeTodosCatLivros():CategoriaLivro[]{
+    public ExibeTodosCatLivros():CategoriaLivro[]{
         return this.CatLivroLista
     }
 
-    AchaCatLivroPorId(id:number):CategoriaLivro|undefined{
+    public AchaCatLivroPorId(id:number):CategoriaLivro|undefined{
             return this.CatLivroLista.find(categoria =>categoria.id ===id);
         }
 }

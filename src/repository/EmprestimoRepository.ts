@@ -13,12 +13,12 @@ export class EmprestimoRepository{
         return this.instance
     }
 
-    InsereEmprestimo(emprestimo:Emprestimo):Emprestimo{
+    public InsereEmprestimo(emprestimo:Emprestimo):Emprestimo{
         this.EmprestimoLista.push(emprestimo);
         return emprestimo;
     }
 
-    ExibeEmprestimoPorId(id:number):Emprestimo|undefined{
+    public ExibeEmprestimoPorId(id:number):Emprestimo|undefined{
         const index = this.EmprestimoLista.findIndex(e=>e.id===id)
         if(index == -1){
             return undefined;
@@ -26,7 +26,7 @@ export class EmprestimoRepository{
         return this.EmprestimoLista[index];
     }
 
-    RemoveEmprestimoPorId(id:number):boolean{
+    public RemoveEmprestimoPorId(id:number):boolean{
         const index = this.EmprestimoLista.findIndex(e=>e.id === id)
         if(index == -1){
             return false;
@@ -35,11 +35,11 @@ export class EmprestimoRepository{
         return true;
     }
 
-    ExibeTodosEmprestimos():Emprestimo[]{
+    public ExibeTodosEmprestimos():Emprestimo[]{
         return this.EmprestimoLista;
     }
 
-    AtualizaEmprestimo(id:number, EmprestimoAtualizado:Emprestimo):Emprestimo|undefined{
+    public AtualizaEmprestimo(id:number, EmprestimoAtualizado:Emprestimo):Emprestimo|undefined{
         const index = this.EmprestimoLista.findIndex(e=>e.id === id)
         if(index == -1){
             return undefined;
@@ -57,7 +57,7 @@ export class EmprestimoRepository{
         return EmprestimoExistente;
     }
 
-    BuscaEmpPendPorUsuario(usuarioId:number):Emprestimo[]{
+    public BuscaEmpPendPorUsuario(usuarioId:number):Emprestimo[]{
         const hoje = new Date();
         hoje.setHours(0,0,0,0);
         return this.EmprestimoLista.filter(
@@ -67,7 +67,7 @@ export class EmprestimoRepository{
         );
     }
 
-    BuscaEmpAtrasPorUsuario(usuarioId:number):Emprestimo[]{
+    public BuscaEmpAtrasPorUsuario(usuarioId:number):Emprestimo[]{
         return this.EmprestimoLista.filter(
             e=>e.usuario_id === usuarioId &&
             e.dias_atraso > 0 &&
@@ -75,7 +75,7 @@ export class EmprestimoRepository{
         )
     }
 
-    BuscaEmpAtivoPorUsuario(usuarioId:number):Emprestimo[]{
+    public BuscaEmpAtivoPorUsuario(usuarioId:number):Emprestimo[]{
         return this.EmprestimoLista.filter(
             e=>e.usuario_id === usuarioId &&
             e.data_entrega === null

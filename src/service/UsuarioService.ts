@@ -26,7 +26,7 @@ export class UsuarioService{
             this.contadorIdUsu = 1;
         }
     }
-    novoUsuario(data:any):Usuario{
+    public novoUsuario(data:any):Usuario{
         if(!data.nome ||!data.cpf
             ||!data.categoria_id||!data.curso_id
         ){

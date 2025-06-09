@@ -9,7 +9,7 @@ export class EstoqueService {
     constructor() {
         this.inicializaProximoIdEstoque();
     }
-      private inicializaProximoIdEstoque(): void{
+      public inicializaProximoIdEstoque(): void{
         const todosEstoques = this.estoqueRepository.ExibeTodosEstoquesDisponiveis();
         if (todosEstoques.length > 0) {
             const maxId = Math.max(...todosEstoques.map(e => e.id));
@@ -18,21 +18,21 @@ export class EstoqueService {
             this.proximoIdEstoque = 1;
         }
       }
-    public novoProdutoEstoque(data: { livro_id: number; quantidade: number; disponivel?: boolean }): Estoque {
-        if (!data.livro_id || !data.quantidade) {
+    public novoProdutoEstoque(data: { livroISBN: string;id:number; quantidade: number; disponivel?: boolean }): Estoque {
+        if (!data.livroISBN || !data.quantidade) {
             throw new Error("Favor informar o ID do livro e a quantidade para o estoque.");
         }
 
         // Verifica se o livro_id corresponde a um livro existente
-        const livroExistente = this.livroRepository.ExibeLivroPorId(data.livro_id);
+        const livroExistente = this.livroRepository.ExibeLivroPorISBN(data.livroISBN);
         if (!livroExistente) {
-            throw new Error("Livro com o ID fornecido não encontrado. Não é possível adicionar ao estoque.");
+            throw new Error("Livro com o ID fornecido não encontrado.");
         }
 
-        // Verifica se já existe um estoque para este livro_id (se o estoque é único por livro)
-        const estoqueExistente = this.estoqueRepository.BuscaEstoqueLivroPorId(data.livro_id);
+        // Verifica se já existe um estoque para este livroISBN (se o estoque é único por livro)
+        const estoqueExistente = this.estoqueRepository.ExibeEstoquePorId(data.id);
         if (estoqueExistente) {
-             throw new Error("Já existe um item de estoque para este livro. Use o método de atualização.");
+             throw new Error("Já existe um item de estoque para este livro. ");
         }
         let proximoIdEstoque: number;
  
@@ -41,7 +41,7 @@ export class EstoqueService {
 
         const novoEstoque = new Estoque(
             proximoIdEstoque,
-            data.livro_id,
+            data.id,
             data.quantidade,
             0, 
             data.disponivel !== undefined ? data.disponivel : true 
@@ -51,7 +51,7 @@ export class EstoqueService {
         return novoEstoque;
     }
 
-    private incrementarContadorEstoque(): void {
+    public incrementarContadorEstoque(): void {
         const todosEstoques = this.estoqueRepository.ExibeTodosEstoquesDisponiveis();
         if (todosEstoques.length > 0) {
             const maxId = Math.max(...todosEstoques.map(e => e.id));

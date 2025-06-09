@@ -11,12 +11,12 @@ export class LivroRepository{
         }
         return this.instance
     }
-    InsereLivro(Livro:Livro):Livro{
+    public InsereLivro(Livro:Livro):Livro{
         this.LivroLista.push(Livro);
         return Livro;
     }
 
-    ExibeLivroPorISBN(isbn:string):Livro|undefined{
+    public ExibeLivroPorISBN(isbn:string):Livro|undefined{
         const index = this.LivroLista.findIndex(l=>l.isbn===isbn)
         if(index === -1){
             return undefined;
@@ -24,7 +24,7 @@ export class LivroRepository{
         return this.LivroLista[index];
     }
 
-    RemoveLivroPorISBN(isbn:string):boolean{
+    public RemoveLivroPorISBN(isbn:string):boolean{
         const index = this.LivroLista.findIndex(l=>l.isbn===isbn)
         if(index == -1){
             return false;
@@ -32,14 +32,14 @@ export class LivroRepository{
         this.LivroLista.splice(index,1);
         return true;
     }
-    ExibeLivroPorId(id: number): Livro|undefined {
+    public ExibeLivroPorId(id: number): Livro|undefined {
         return this.LivroLista.find(l=>l.id === id);
     }
-    ExibeTodosLivros():Livro[]{
+    public ExibeTodosLivros():Livro[]{
         return this.LivroLista
     }
 
-    AtualizaLivro(isbn:string, LivroAtualizado:Livro):Livro|undefined{
+    public AtualizaLivro(isbn:string, LivroAtualizado:Livro):Livro|undefined{
         const index = this.LivroLista.findIndex(l=>l.isbn===isbn)
         if(index == -1){
             return undefined;

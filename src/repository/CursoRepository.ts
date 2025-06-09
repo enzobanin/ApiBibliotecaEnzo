@@ -17,16 +17,16 @@ export class CursoRepository{
         return this.instance
     }
 
-    InsereCurso(curso:Curso):Curso{
+    public InsereCurso(curso:Curso):Curso{
         this.CursoLista.push(curso)
         return curso;
     }
 
-    ExibeTodosCursos():Curso[]{
+    public ExibeTodosCursos():Curso[]{
         return this.CursoLista
     }
 
-    AchaCursoPorId(id:number):Curso|undefined{
+    public AchaCursoPorId(id:number):Curso|undefined{
         return this.CursoLista.find(curso =>curso.id ===id);
     }
 }

@@ -17,16 +17,16 @@ export class CategoriaUsuarioRepository{
         return this.instance
     }
 
-    InsereCatUsuario(catUsuario:CategoriaUsuario):CategoriaUsuario{
+    public InsereCatUsuario(catUsuario:CategoriaUsuario):CategoriaUsuario{
         this.CatUsuarioLista.push(catUsuario);
         return catUsuario;
     }
 
-    ExibeTodosCatUsuarios():CategoriaUsuario[]{
+    public ExibeTodosCatUsuarios():CategoriaUsuario[]{
         return this.CatUsuarioLista
     }
 
-    AchaCatUsuPorId(id:number):CategoriaUsuario|undefined{
+    public AchaCatUsuPorId(id:number):CategoriaUsuario|undefined{
         return this.CatUsuarioLista.find(categoria =>categoria.id ===id);
     }
 
