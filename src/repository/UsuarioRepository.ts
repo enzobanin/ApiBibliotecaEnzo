@@ -23,7 +23,6 @@ export class UsuarioRepository{
         }
         return this.UsuarioLista[index]
     }
-
     RemoveUsuarioPorCPF(cpf:string):boolean{
         const index = this.UsuarioLista.findIndex(u=>u.cpf===cpf)
         if(index == -1){
@@ -51,6 +50,15 @@ export class UsuarioRepository{
         UsuarioExistente.curso_id = UsuarioAtualizado.curso_id;
 
         return UsuarioExistente; 
+    }
+    AtualizaUsuarioPorId(id: number, usuarioAtualizado: Usuario): Usuario | undefined {
+        const index = this.UsuarioLista.findIndex(u => u.id === id);
+        if (index === -1) {
+            return undefined;
+        }
+        usuarioAtualizado.id = this.UsuarioLista[index].id;
+        this.UsuarioLista[index] = usuarioAtualizado;
+        return this.UsuarioLista[index];
     }
 }
 
